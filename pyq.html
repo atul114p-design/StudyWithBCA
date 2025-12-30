@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BCA CHAMPS – Past Question Papers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app-frame">
+    <div class="app-frame-inner">
+
+        <!-- Header same vibe as main page -->
+        <header>
+            <div class="logo-title">
+                <span class="bca">BCA</span>
+                <span class="champs">CHAMPS</span>
+            </div>
+            <p class="subtitle">Semester 1 • Past Question Papers</p>
+            <p class="tagline">focus · practice · repeat</p>
+        </header>
+
+        <!-- MAIN CONTENT -->
+        <main class="papers-layout">
+            <div class="papers-top-row">
+                <h1 class="papers-heading">Semester 1 – Past Papers</h1>
+                <a href="sem1.html" class="back-home">← Semester 1</a>
+            </div>
+
+
+            <section class="papers-section">
+                <div class="papers-grid">
+
+                    <!-- Card 1: FCO -->
+                    <article class="paper-card">
+                        <div class="paper-meta">
+                            <div class="paper-code">FCO-BC01001011</div>
+                            <div class="paper-name">Fundamentals of Computer Organization</div>
+                        </div>
+                        <div class="paper-years">
+                            <span class="years-label">Available Years</span>
+                            <div class="year-buttons">
+                                <a href="pdfs/Fundamental Of Computer Oraganization.pdf" target="_blank" class="btn-pdf">2024 Paper</a>
+                                <a href="pdfs/FCO PAPER-I.pdf" target="_blank" class="btn-pdf" id="answerfco">Solution</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 2: C Programming -->
+                    <article class="paper-card">
+                        <div class="paper-meta">
+                            <div class="paper-code">FOP-BC01001021</div>
+                            <div class="paper-name">Fundamental Of Programming </div>
+                        </div>
+                        <div class="paper-years">
+                            <span class="years-label">Available Years</span>
+                            <div class="year-buttons">
+                                <a href="pdfs/Fundamental Of Programming.pdf" target="_blank" class="btn-pdf">2024 Paper</a>
+                                <a href="pdfs/FOP PAPER I.pdf" target="_blank" class="btn-pdf" id="answerc">Solution</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 3: Maths -->
+                    <article class="paper-card">
+                        <div class="paper-meta">
+                            <div class="paper-code">MATH-BC01001051</div>
+                            <div class="paper-name">Mathematics-I</div>
+                        </div>
+                        <div class="paper-years">
+                            <span class="years-label">Available Years</span>
+                            <div class="year-buttons">
+                                <a href="pdfs/Mathematics-I.pdf" target="_blank" class="btn-pdf">2024 Paper</a>
+                                <a href="" target="_blank" class="btn-pdf" id="answermath">Self Solve</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 4: Communication Skills (example) -->
+                    <article class="paper-card">
+                        <div class="paper-meta">
+                            <div class="paper-code">CS-BC01001071</div>
+                            <div class="paper-name">Communication Skills</div>
+                        </div>
+                        <div class="paper-years">
+                            <span class="years-label">Available Years</span>
+                            <div class="year-buttons">
+                                <a href="pdfs/Communication Skiils.pdf" target="_blank" class="btn-pdf">2024 Paper</a>
+                                <a href="pdfs/CS PAPER SOLVE.pdf" target="_blank" class="btn-pdf" id="answerCS">Solution</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 4: Indian Knowledge System -->
+                    <article class="paper-card">
+                        <div class="paper-meta">
+                            <div class="paper-code">IKS-BC01001081</div>
+                            <div class="paper-name">Indian Knowledge System</div>
+                        </div>
+                        <div class="paper-years">
+                            <span class="years-label">Available Years</span>
+                            <div class="year-buttons">
+                                <a href="pdfs/Indian Knowledge System.pdf" target="_blank" class="btn-pdf">2024 Paper</a>
+                                <a href="pdfs/IKS PAPER SOLVE.pdf" target="_blank" class="btn-pdf" id="answeriks">Solution</a>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    
+
+                    <!-- Card 4: Fundamental Of Web Technology -->
+                    <article class="paper-card">
+                        <div class="paper-meta">
+                            <div class="paper-code">FWT-BC01001031</div>
+                            <div class="paper-name">Fundamental Of Web Technology</div>
+                        </div>
+                        <div class="paper-years">
+                            <span class="years-label">Available Years</span>
+                            <div class="year-buttons">
+                                <a href="pdfs/Fundamental Of Web Technology.pdf" target="_blank" class="btn-pdf">2024 Paper</a>
+                                <a href="pdfs/FWT PAPER SOLUTION.pdf" target="_blank" class="btn-pdf" id="answerfwt">Solution</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Tum aur subjects ke liye same card copy-paste karke edit kar sakte ho -->
+
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
+<script>
+document.getElementById('answermath').addEventListener('click', function(e){
+  e.preventDefault(); 
+  alert('Potte Solve Karvu');
+});
+
+
+</script>
+</body>
+</html>

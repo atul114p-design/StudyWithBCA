@@ -1,0 +1,1981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Semester 1 – Practicals</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Same CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app-frame">
+    <div class="app-frame-inner">
+        <!-- HEADER -->
+        <header>
+            <div class="logo-title">
+                <span class="bca">BCA</span>
+                <span class="champs">CHAMPS</span>
+            </div>
+            <p class="subtitle">Semester 1 – Practicals Lab</p>
+            <p class="tagline">choose subject → choose practical → code / pdf</p>
+        </header>
+
+        <!-- MAIN PRACTICALS LAYOUT -->
+        <main class="prac-layout">
+            <!-- LEFT: SUBJECTS -->
+            <section class="prac-column prac-left">
+                <div class="prac-section-title">Subjects</div>
+                <div id="subject-list" class="subject-list">
+                    <!-- JS se buttons yaha aayenge -->
+                </div>
+            </section>
+
+            <!-- MIDDLE: PRACTICAL LIST -->
+            <section class="prac-column prac-middle">
+                <div class="prac-section-title">Practicals</div>
+                <ul id="practical-list" class="practical-list">
+                    <li class="placeholder-text">Select a subject to see practicals.</li>
+                </ul>
+            </section>
+
+            <!-- RIGHT: DETAILS -->
+            <section class="prac-column prac-right">
+                <div class="prac-section-title">Practical Details</div>
+                <h3 id="prac-title" class="prac-title">Select any practical from the middle.</h3>
+
+                <div class="code-header">
+                    <span>Code</span>
+                    <button id="copy-btn" class="copy-btn">Copy code</button>
+                </div>
+                <pre id="code-box" class="code-box"><code>// Code will appear here...</code></pre>
+
+                <div class="prac-section-title" style="margin-top: 12px;">Output</div>
+                <pre id="output-box" class="output-box">Output will appear here...</pre>
+
+                <!-- FCO ke PDFs ke liye buttons -->
+                <div id="pdf-area" class="pdf-area" style="display:none; margin-top:10px; gap:8px;">
+                    <a id="view-pdf" class="btn-pdf" target="_blank">View PDF</a>
+                    <a id="download-pdf" class="btn-pdf" download>Download PDF</a>
+                </div>
+            </section>
+        </main>
+
+        <div class="syllabus-top-row" style="margin-top: 14px;">
+            <a href="sem1.html" class="back-home">← Semester 1</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ---------- DATA: Subjects + Practicals ----------
+    const practicalData = {
+        FCO: {
+            type: "pdf",                 // IMPORTANT: FCO = pdf-mode
+            short: "FCO",
+            full: "Fundamental of Computer Organization",
+            practicals: [
+                {
+                    id: "FCO_P1",
+                    title: "1.Identify basic terms and components of the computer and make a summary report.",
+                    pdf: "pdfs/fco_prac1.pdf"
+                },
+                {
+                    id: "FCO_P2",
+                    title: "2.Study of Different Slots on the Motherboard & Use of Front & Back Panel Connections",
+                    pdf: "pdfs/fco_prac2.pdf"
+                },
+                {
+                    id: "FCO_P3",
+                    title: "3.Identify and Understand the Working of Various Ports, Sockets, Connectors, Cables & Expansion Cards",
+                    pdf: "pdfs/fco_prac3.pdf"
+                },
+                {
+                    id: "FCO_P4",
+                    title: "4.To Study and Verify the Truth Table of Logic Gates",
+                    pdf: "pdfs/fco_prac4.pdf"
+                },
+                {
+                    id: "FCO_P5",
+                title: "5.To Realize Half Adder, Full Adder, Half Subtractor & Full Subtractor Using Basic Gates and NAND Gates",
+                    pdf: "pdfs/fco_prac5.pdf"
+                },
+                {
+                    id: "FCO_P6",
+                    title: "6.To Simplify the Given Boolean Expression and Realize It Using Basic Gates and Universal Gates",
+                    pdf: "pdfs/fco_prac6.pdf"
+                },
+                {
+                    id: "FCO_P7",
+                    title: "7.To Design and Set Up the Following Circuit Using IC 7483 i) 4-bit Binary Parallel Adder ii) 4-bit Binary Parallel Subtractor",
+                    pdf: "pdfs/fco_prac7.pdf"
+                },
+                {
+                    id: "FCO_P8",
+                    title: "8.Study of Physical and Logical Components of Hard Disk and SSD and Their Interface",
+                    pdf: "pdfs/fco_prac8.pdf"
+                },
+                {
+                    id: "FCO_P9",
+                    title: "9.Study of Working of Keyboard, Mouse, Scanner, Monitor & Printer with Their Interface Types, and Troubleshooting of Motherboard, Keyboard & Mouse",
+                    pdf: "pdfs/fco_prac9.pdf"
+                },
+                {
+                    id: "FCO_P10",
+                    title: "10.Install Windows Operating System Using Oracle VirtualBox and Understand Control Panel",
+                    pdf: "pdfs/fco_prac10.pdf"
+                },
+                {
+                    id: "FCO_P11",
+                    title: "11.Install Linux Operating System Using Oracle VirtualBox",
+                    pdf: "pdfs/fco_prac11.pdf"
+                },
+                {
+                    id: "FCO_P12",
+                    title: "12.Understand the Working of SMPS",
+                    pdf: "pdfs/fco_prac12.pdf"
+                },
+                
+                // aur bhi FCO practicals yahi add kar sakta hai
+            ]
+        },
+        
+
+        FOP: {
+            type: "code",                // FOP = code-mode
+            short: "FOP",
+            full: "Fundamental of Programming (C)",
+            practicals: [
+                {
+                    id: "FOP_P1",
+                    title: "1.Write a program to that performs as calculator (addition, multiplication, division, subtraction).",
+                    code: `#include <stdio.h>
+
+int main() {
+    int a, b;
+    int choice;
+
+    printf("Enter first number: ");
+    scanf("%d", &a);
+
+    printf("Enter second number: ");
+    scanf("%d", &b);
+
+    printf("Choose operation:");
+    printf("1. Addition");
+    printf("2. Subtraction");
+    printf("3. Multiplication");
+    printf("4. Division");
+    printf("Enter your choice: ");
+    scanf("%d", &choice);
+
+    switch(choice) {
+        case 1:
+            printf("Result = %d", a + b);
+            break;
+        case 2:
+            printf("Result = %d", a - b);
+            break;
+        case 3:
+            printf("Result = %d", a * b);
+            break;
+        case 4:
+            if (b != 0)
+                printf("Result = %d", a / b);
+            else
+                printf("Cannot divide by zero!");
+            break;
+        default:
+            printf("Invalid choice!");
+    }
+
+    return 0;
+}`,
+                    output: `Enter first number: 5
+Enter second number: 6
+
+Choose operation:
+1. Addition
+2. Subtraction
+3. Multiplication
+4. Division
+Enter your choice: 1
+Result = 11`
+                },
+                {
+                    id: "FOP_P2",
+                    title: "2. Write a program to find area of triangle(a=h*b*.5) a = area h= height b = base.",
+                    code: `#include <stdio.h>
+
+#include <stdio.h>
+
+int main() {
+    float base, height, area;
+
+    printf("Enter base: ");
+    scanf("%f", &base);
+
+    printf("Enter height: ");
+    scanf("%f", &height);
+
+    area = 0.5 * base * height;
+
+    printf("Area of Triangle = %.2f", area);
+
+    return 0;
+}`,
+                    output: `Enter base: 2
+Enter height: 4
+Area of Triangle = 4.00`
+                },
+                {
+                    id: "FOP_P3",
+                    title: "3.Write a program to calculate simple interest (i = (p*r*n)/100 ) i = Simple interest p= Principal amount r= Rate of interest n=Number of years.",
+                    code: `#include <stdio.h>
+
+int main() {
+    float p, r, n, i;
+
+    printf("Enter Principal Amount: ");
+    scanf("%f", &p);
+
+    printf("Enter Rate of Interest: ");
+    scanf("%f", &r);
+
+    printf("Enter Number of Years: ");
+    scanf("%f", &n);
+
+    i = (p * r * n) / 100;
+
+    printf("Simple Interest = %.2f", i);
+
+    return 0;
+}`,
+                    output: `Enter Principal Amount: 15000
+Enter Rate of Interest: 7.5 
+Enter Number of Years: 12
+Simple Interest = 13500.00`
+                },
+                {
+                    id: "FOP_P4",
+                    title: "4.Write a C program to inter change two numbers.",
+                    code: `#include <stdio.h>
+
+int main() {
+    int a, b, temp;
+    a=b;
+    b=a;
+
+    printf("Enter first number (a): ");
+    scanf("%d", &a);
+
+    printf("Enter second number (b): ");
+    scanf("%d", &b);
+
+    temp = a;
+    a = b;
+    b = temp;
+
+    printf("After Interchange:");
+    printf("a = %d", a);
+    printf("b = %d", b);
+
+    return 0;
+}`,
+                    output: `Enter first number (a): 5
+Enter second number (b): 8
+
+After Interchange:
+a = 8
+b = 5`
+                },
+                {
+                    id: "FOP_P5",
+                    title: "5.Write a C program to enter a distance in to kilometre and convert it into meter, feet, inches and centimeter.",
+                    code: `#include <stdio.h>
+
+int main() {
+    float km, meter, feet, inch, cm;
+
+    printf("Enter distance in kilometer: ");
+    scanf("%f", &km);
+
+    meter = km * 1000;
+    cm    = meter * 100;
+    feet  = meter * 3.28084;
+    inch  = cm / 2.54;
+
+    printf("In meters     = %.2f", meter);
+    printf("In centimeters= %.2f", cm);
+    printf("In feet       = %.2f", feet);
+    printf("In inches     = %.2f", inch);
+
+    return 0;
+}`,
+                    output: `Enter distance in kilometer: 20
+
+In meters     = 20000.00
+In centimeters= 2000000.00
+In feet       = 65616.80
+In inches     = 787401.56`
+                },
+                {
+                    id: "FOP_P6",
+                    title: "6.Write a program to compute Fahrenheit from centigrade(f=1.8*c +32)",
+                    code:
+`#include <stdio.h>
+int main() {
+    float c, f;
+
+    printf("Enter temperature in Centigrade: ");
+    scanf("%f", &c);
+
+    f = 1.8 * c + 32;
+
+    printf("Temperature in Fahrenheit = %.2f", f);
+
+    return 0;
+}`,
+                    output: `Enter temperature in Centigrade: 27
+Temperature in Fahrenheit = 80.60`
+                },
+                {
+                    id: "FOP_P7",
+                    title: "7.Write a C program to find that the accept ednumber isNegative, Positive or Zero.",
+                    code: 
+`#include <stdio.h>
+int main() {
+    int num;
+
+    printf("Enter a number: ");
+    scanf("%d", &num);
+
+    if (num > 0)
+        printf("Number is Positive");
+    else if (num < 0)
+        printf("Number is Negative");
+    else
+        printf("Number is Zero");
+
+    return 0;
+}`,
+                    output: `Enter a number: 5
+Number is Positive`
+                },
+                {
+                    id: "FOP_P8",
+                    title: "8. Write a program to read marks of a student from keyboard whether the student is pass or fail (using ifelse).",
+                    code: 
+                    `#include <stdio.h>
+
+int main() {
+    int marks;
+
+    printf("Enter marks of student: ");
+    scanf("%d", &marks);
+
+    if (marks >= 40)
+        printf("Student is PASS");
+    else
+        printf("Student is FAIL");
+
+    return 0;
+}`,
+                    output: `Enter marks of student: 67
+Student is PASS`
+                },
+                {
+                    id: "FOP_P9",
+                    title: "9. Write  a  program  to  read  three  numbers  from  keyboard  and  find  out  maximum  out  of  these three.(nested ifelse)",
+                    code: `#include <stdio.h>
+
+int main() {
+    int a, b, c, max;
+
+    printf("Enter three numbers: ");
+    scanf("%d %d %d", &a, &b, &c);
+
+    if (a > b) {
+        if (a > c)
+            max = a;
+        else
+            max = c;
+    } else {
+        if (b > c)
+            max = b;
+        else
+            max = c;
+    }
+
+    printf("Maximum = %d", max);
+
+    return 0;
+}`,
+                    output: `Enter three numbers: 5
+9
+2
+Maximum = 9`
+                },
+                {
+                    id: "FOP_P10",
+                    title: "10.Write a c program to prepare pay slip using following data. Da = 10% of basic, Hra = 7.50% of basic, MA= 300, Pf= 12.50% of basic, Gross=basic+Da+Hra+Ma,Nt= Gross–Pf.",
+                    code: `#include <stdio.h>
+
+int main() {
+    float basic, da, hra, ma, pf, gross, net;
+
+    printf("Enter basic salary: ");
+    scanf("%f", &basic);
+
+    da   = 0.10 * basic;
+    hra  = 0.075 * basic;
+    ma   = 300;
+    pf   = 0.125 * basic;
+
+    gross = basic + da + hra + ma;
+    net   = gross - pf;
+
+    printf("Basic Salary   = %.2f", basic);
+    printf("DA (10%%)       = %.2f", da);
+    printf("HRA (7.5%%)     = %.2f", hra);
+    printf("MA             = %.2f", ma);
+    printf("PF (12.5%%)     = %.2f", pf);
+    printf("Gross Salary   = %.2f", gross);
+    printf("Net Salary     = %.2f", net);
+
+    return 0;
+}
+`,
+                    output: `Enter basic salary: 15000
+
+Basic Salary   = 15000.00
+DA (10%)       = 1500.00
+HRA (7.5%)     = 1125.00
+MA             = 300.00
+PF (12.5%)     = 1875.00
+Gross Salary   = 17925.00
+Net Salary     = 16050.00`
+                },
+                {
+                    id: "FOP_P11",
+                    title: "11. Write a C program to find out the Maximum and Minimum number from given 10 numbers",
+                    code: `#include <stdio.h>
+
+int main() {
+    int i, num;
+    int max, min;
+
+    printf("Enter 10 numbers:\n");
+
+    scanf("%d", &num);
+    max = min = num;     // first number as initial
+
+    for (i = 2; i <= 10; i++) {
+        scanf("%d", &num);
+
+        if (num > max)
+            max = num;
+        if (num < min)
+            min = num;
+    }
+
+    printf("Maximum = %d\n", max);
+    printf("Minimum = %d\n", min);
+
+    return 0;
+}
+`,
+                    output: `Enter 10 numbers:
+5
+9
+4
+8
+6
+2
+1
+5
+7
+6
+Maximum = 9
+Minimum = 1`
+                },
+                {
+                    id: "FOP_P12",
+                    title: "12.Write a C program to find factorial of a given number.",
+                    code: `#include <stdio.h>
+
+int main() {
+    int n, i;
+    long long fact = 1;
+
+    printf("Enter a number: ");
+    scanf("%d", &n);
+
+    if (n < 0) {
+        printf("Factorial of negative number does not exist.");
+    } else {
+        for (i = 1; i <= n; i++) {
+            fact = fact * i;
+        }
+        printf("Factorial = %lld", fact);
+    }
+
+    return 0;
+}
+`,
+                    output: `Enter a number: 5
+Factorial = 120
+`
+                },
+                {
+                    id: "FOP_P13",
+                    title: "13.Write a program to reverse a number.",
+                    code: `#include <stdio.h>
+
+int main() {
+   int i;
+   for(i=5;i>=1;i--){
+       printf("%d",i);
+   }
+    return 0;
+    }`,
+                    output: `54321`
+                },
+                {
+                    id: "FOP_P14",
+                    title: "14. Write a program to generate first n number of Fibonacci series",
+                    code: `#include <stdio.h>
+
+int main() {
+    int n, i;
+    int a = 0, b = 1, next;
+
+    printf("Enter n: ");
+    scanf("%d", &n);
+
+    printf("Fibonacci series: ");
+
+    for (i = 1; i <= n; i++) {
+        printf("%d ", a);
+        next = a + b;
+        a = b;
+        b = next;
+    }
+
+    return 0;
+}`,
+                    output: `Enter n: 5
+Fibonacci series: 0 1 1 2 3 `
+                },
+                {
+                    id: "FOP_P15",
+                    title: "15. Write a program to calculate average and total of 5 students for 3subjects(use nested for loops",
+                    code: `#include <stdio.h>
+
+int main() {
+    int marks[5][3];
+    int i, j, total;
+    float avg;
+
+    printf("Enter marks of 5 students for 3 subjects:\n");
+
+    for (i = 0; i < 5; i++) {
+        printf("\nStudent %d:\n", i + 1);
+        for (j = 0; j < 3; j++) {
+            printf("Subject %d: ", j + 1);
+            scanf("%d", &marks[i][j]);
+        }
+    }
+
+    printf("\nTotal and Average:\n");
+    for (i = 0; i < 5; i++) {
+        total = 0;
+        for (j = 0; j < 3; j++) {
+            total += marks[i][j];
+        }
+        avg = total / 3.0;
+
+        printf("Student %d -> Total = %d, Average = %.2f\n", i + 1, total, avg);
+    }
+
+    return 0;
+}`,
+                    output: `Enter marks of 5 students for 3 subjects:
+
+Student 1:
+Subject 1: 5,Subject 2: 65,Subject 3: 25
+
+Student 2:
+Subject 1: 36,Subject 2: 15,Subject 3: 25
+
+Student 3:
+Subject 1: 36,Subject 2: 14,Subject 3: 25
+
+Student 4:
+Subject 1: 65,Subject 2: 14,Subject 3: 85
+
+Student 5:
+Subject 1: 65,Subject 2: 75,Subject 3: 85
+
+Total and Average:
+Student 1 -> Total = 95, Average = 31.67
+Student 2 -> Total = 76, Average = 25.33
+Student 3 -> Total = 75, Average = 25.00
+Student 4 -> Total = 164, Average = 54.67
+Student 5 -> Total = 225, Average = 75.00`
+                },
+                {
+                    id: "FOP_P16",
+                    title: "16. Read five persons height and weight and count the number of person having height greater than 170cm and weight lessthan 50kg ",
+                    code: `#include <stdio.h>
+
+int main() {
+    int i, count = 0;
+    float height, weight;
+
+    printf("Enter height (cm) and weight (kg) of 5 persons:\n");
+
+    for (i = 1; i <= 5; i++) {
+        printf("\nPerson %d:\n", i);
+        
+        printf("Height (in cm): ");
+        scanf("%f", &height);
+
+        printf("Weight (in kg): ");
+        scanf("%f", &weight);
+
+        if (height > 170 && weight < 50) {
+            count++;
+        }
+    }
+
+    printf("\nNumber of persons with height > 170 cm and weight < 50 kg = %d", count);
+
+    return 0;
+}`,
+                    output: `Enter height (cm) and weight (kg) of 5 persons:
+
+Person 1:
+Height (in cm): 158,Weight (in kg): 88
+
+Person 2:
+Height (in cm): 169,Weight (in kg): 85
+
+Person 3:
+Height (in cm): 145,Weight (in kg): 55
+
+Person 4:
+Height (in cm): 198,Weight (in kg): 65
+
+Person 5:
+Height (in cm): 185,Weight (in kg): 69
+
+Number of persons with height > 170 cm and weight < 50 kg = 0`
+                },
+                {
+    id: "FOP_P17",
+    title: "17. Write a program to check whether the given number is prime or not.",
+    code: `#include <stdio.h>
+
+int main() {
+    int n, i, isPrime = 1;
+
+    printf("Enter a number: ");
+    scanf("%d", &n);
+
+    if (n <= 1) {
+        isPrime = 0;
+    } else {
+        for (i = 2; i <= n / 2; i++) {
+            if (n % i == 0) {
+                isPrime = 0;
+                break;
+            }
+        }
+    }
+
+    if (isPrime)
+        printf("%d is a prime number.", n);
+    else
+        printf("%d is not a prime number.", n);
+
+    return 0;
+}`,
+    output: `Enter a number: 7
+7 is a prime number.`
+},
+
+{
+    id: "FOP_P18",
+    title: "18. Write a program to evaluate the series 1^2+2^2+3^2+……+n^2",
+    code: `#include <stdio.h>
+
+int main() {
+    int n, i;
+    int sum = 0;
+
+    printf("Enter value of n: ");
+    scanf("%d", &n);
+
+    for (i = 1; i <= n; i++) {
+        sum = sum + (i * i);
+    }
+
+    printf("Sum of series 1^2 + 2^2 + ... + %d^2 = %d", n, sum);
+
+    return 0;
+}`,
+    output: `Enter value of n: 5
+Sum of series 1^2 + 2^2 + ... + 5^2 = 55`
+},
+
+{
+    id: "FOP_P19",
+    title: "19. Write a program to print following patterns: i) * triangle ii) hollow square",
+    code: `#include <stdio.h>
+
+int main() {
+    int i, j;
+
+    printf("Pattern (i):\\n");
+    for (i = 1; i <= 5; i++) {
+        for (j = 1; j <= i; j++) {
+            printf("*");
+        }
+        printf("\\n");
+    }
+
+    printf("\\nPattern (ii):\\n");
+    for (i = 1; i <= 5; i++) {
+        for (j = 1; j <= 5; j++) {
+            if (i == 1 || i == 5 || j == 1 || j == 5)
+                printf("*");
+            else
+                printf(" ");
+        }
+        printf("\\n");
+    }
+
+    return 0;
+}`,
+    output: `Pattern (i):
+*
+**
+***
+****
+*****
+
+Pattern (ii):
+*****
+*   *
+*   *
+*   *
+*****`
+},
+
+{
+    id: "FOP_P20",
+    title: "20. Write a program to print following patterns with numbers.",
+    code: `#include <stdio.h>
+
+int main() {
+    int i, j;
+
+    printf("Pattern (i):\\n");
+    for (i = 1; i <= 5; i++) {
+        for (j = 1; j <= i; j++) {
+            printf("%d", j);
+        }
+        printf("\\n");
+    }
+
+    printf("\\nPattern (ii):\\n");
+    for (i = 5; i >= 1; i--) {
+        for (j = 1; j <= i; j++) {
+            printf("%d", j);
+        }
+        printf("\\n");
+    }
+
+    return 0;
+}`,
+    output: `Pattern (i):
+1
+12
+123
+1234
+12345
+
+Pattern (ii):
+12345
+1234
+123
+12
+1`
+},
+
+{
+    id: "FOP_P21",
+    title: "21. Write a program to print following patterns using characters.",
+    code: `#include <stdio.h>
+
+int main() {
+    int i, j;
+    char ch;
+
+    printf("Pattern (i):\\n");
+    ch = 'A';
+    for (i = 1; i <= 5; i++) {
+        for (j = 1; j <= i; j++) {
+            printf("%c", ch);
+        }
+        ch++;
+        printf("\\n");
+    }
+
+    printf("\\nPattern (ii):\\n");
+    for (i = 5; i >= 1; i--) {
+        ch = 'A';
+        for (j = 1; j <= i; j++) {
+            printf("%c", ch);
+            ch++;
+        }
+        printf("\\n");
+    }
+
+    return 0;
+}`,
+    output: `Pattern (i):
+A
+BB
+CCC
+DDDD
+EEEEE
+
+Pattern (ii):
+ABCDE
+ABCD
+ABC
+AB
+A`
+},
+
+{
+    id: "FOP_P22",
+    title: "22. Write a C program to read and store the roll no and marks of 20 students using array.",
+    code: `#include <stdio.h>
+
+int main() {
+    int roll[20];
+    float marks[20];
+    int i;
+
+    printf("Enter roll no and marks of 20 students:\\n");
+    for (i = 0; i < 20; i++) {
+        printf("Student %d roll no: ", i + 1);
+        scanf("%d", &roll[i]);
+        printf("Student %d marks : ", i + 1);
+        scanf("%f", &marks[i]);
+    }
+
+    printf("\\nStored Data:\\n");
+    for (i = 0; i < 20; i++) {
+        printf("Roll No: %d, Marks: %.2f\\n", roll[i], marks[i]);
+    }
+
+    return 0;
+}`,
+    output: `Enter roll no and marks of 20 students:
+Student 1 roll no: 1
+Student 1 marks : 75
+...
+Student 20 roll no: 20
+Student 20 marks : 68
+
+Stored Data:
+Roll No: 1, Marks: 75.00
+...
+Roll No: 20, Marks: 68.00`
+},
+
+{
+    id: "FOP_P23",
+    title: "23. Write a program to find maximum element from 1-Dimensional array.",
+    code: `#include <stdio.h>
+
+int main() {
+    int a[10];
+    int i, max;
+
+    printf("Enter 10 elements: ");
+    for (i = 0; i < 10; i++) {
+        scanf("%d", &a[i]);
+    }
+
+    max = a[0];
+    for (i = 1; i < 10; i++) {
+        if (a[i] > max) {
+            max = a[i];
+        }
+    }
+
+    printf("Maximum element = %d", max);
+
+    return 0;
+}`,
+    output: `Enter 10 elements: 5 9 3 7 2 11 4 6 1 8
+Maximum element = 11`
+},
+
+{
+    id: "FOP_P24",
+    title: "24. Write a program to sort given array in ascending order.",
+    code: `#include <stdio.h>
+
+int main() {
+    int a[10];
+    int i, j, temp;
+
+    printf("Enter 10 elements: ");
+    for (i = 0; i < 10; i++) {
+        scanf("%d", &a[i]);
+    }
+
+    for (i = 0; i < 9; i++) {
+        for (j = i + 1; j < 10; j++) {
+            if (a[i] > a[j]) {
+                temp = a[i];
+                a[i] = a[j];
+                a[j] = temp;
+            }
+        }
+    }
+
+    printf("Sorted array in ascending order: ");
+    for (i = 0; i < 10; i++) {
+        printf("%d ", a[i]);
+    }
+
+    return 0;
+}`,
+    output: `Enter 10 elements: 5 2 9 1 6 3 8 4 7 0
+Sorted array in ascending order: 0 1 2 3 4 5 6 7 8 9 `
+},
+
+{
+    id: "FOP_P25",
+    title: "25. Write a program to reverse string.",
+    code: `#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char str[100], rev[100];
+    int i, len;
+
+    printf("Enter a string: ");
+    gets(str);
+
+    len = strlen(str);
+
+    for (i = 0; i < len; i++) {
+        rev[i] = str[len - 1 - i];
+    }
+    rev[len] = '\\0';
+
+    printf("Reversed string: %s", rev);
+
+    return 0;
+}`,
+    output: `Enter a string: hello
+Reversed string: olleh`
+},
+
+{
+    id: "FOP_P26",
+    title: "26. Write a program that defines a function to add first n numbers.",
+    code: `#include <stdio.h>
+
+int sumN(int n) {
+    int i, sum = 0;
+    for (i = 1; i <= n; i++) {
+        sum = sum + i;
+    }
+    return sum;
+}
+
+int main() {
+    int n;
+
+    printf("Enter n: ");
+    scanf("%d", &n);
+
+    printf("Sum of first %d numbers = %d", n, sumN(n));
+
+    return 0;
+}`,
+    output: `Enter n: 10
+Sum of first 10 numbers = 55`
+},
+
+{
+    id: "FOP_P27",
+    title: "27. Write a function in the program to return 1 if number is prime otherwise return 0.",
+    code: `#include <stdio.h>
+
+int isPrime(int n) {
+    int i;
+    if (n <= 1)
+        return 0;
+
+    for (i = 2; i <= n / 2; i++) {
+        if (n % i == 0)
+            return 0;
+    }
+    return 1;
+}
+
+int main() {
+    int num;
+
+    printf("Enter a number: ");
+    scanf("%d", &num);
+
+    if (isPrime(num))
+        printf("%d is prime.", num);
+    else
+        printf("%d is not prime.", num);
+
+    return 0;
+}`,
+    output: `Enter a number: 13
+13 is prime.`
+},
+
+{
+    id: "FOP_P28",
+    title: "28. Write a program to find factorial of a number using recursion.",
+    code: `#include <stdio.h>
+
+long long fact(int n) {
+    if (n == 0 || n == 1)
+        return 1;
+    else
+        return n * fact(n - 1);
+}
+
+int main() {
+    int n;
+
+    printf("Enter a number: ");
+    scanf("%d", &n);
+
+    if (n < 0)
+        printf("Factorial of negative number is not defined.");
+    else
+        printf("Factorial = %lld", fact(n));
+
+    return 0;
+}`,
+    output: `Enter a number: 5
+Factorial = 120`
+},
+
+{
+    id: "FOP_P29",
+    title: "29. Write a function that will scan a character string passed as an argument and convert all lowercase characters into their upper case equivalents.",
+    code: `#include <stdio.h>
+
+void toUpper(char str[]) {
+    int i;
+    for (i = 0; str[i] != '\\0'; i++) {
+        if (str[i] >= 'a' && str[i] <= 'z') {
+            str[i] = str[i] - 32;
+        }
+    }
+}
+
+int main() {
+    char str[100];
+
+    printf("Enter a string: ");
+    gets(str);
+
+    toUpper(str);
+
+    printf("Uppercase string: %s", str);
+
+    return 0;
+}`,
+    output: `Enter a string: Hello World
+Uppercase string: HELLO WORLD`
+},
+
+{
+    id: "FOP_P30",
+    title: "30. Define a structure type struct personal that would contain person name, joining date and salary using this structure to read this information of 5 people and print the same on screen.",
+    code: `#include <stdio.h>
+
+struct personal {
+    char name[50];
+    int day, month, year;
+    float salary;
+};
+
+int main() {
+    struct personal p[5];
+    int i;
+
+    printf("Enter details of 5 persons:\\n");
+    for (i = 0; i < 5; i++) {
+        printf("\\nPerson %d:\\n", i + 1);
+        printf("Name: ");
+        gets(p[i].name);
+        printf("Joining date (dd mm yyyy): ");
+        scanf("%d %d %d", &p[i].day, &p[i].month, &p[i].year);
+        printf("Salary: ");
+        scanf("%f", &p[i].salary);
+        getchar(); // to clear newline
+    }
+
+    printf("\\nStored Information:\\n");
+    for (i = 0; i < 5; i++) {
+        printf("\\nPerson %d:\\n", i + 1);
+        printf("Name: %s\\n", p[i].name);
+        printf("Joining Date: %02d-%02d-%04d\\n", p[i].day, p[i].month, p[i].year);
+        printf("Salary: %.2f\\n", p[i].salary);
+    }
+
+    return 0;
+}`,
+    output: `Enter details of 5 persons:
+
+Person 1:
+Name: Raj
+Joining date (dd mm yyyy): 1 7 2023
+Salary: 25000
+
+...
+
+Stored Information:
+
+Person 1:
+Name: Raj
+Joining Date: 01-07-2023
+Salary: 25000.00`
+},
+
+{
+    id: "FOP_P31",
+    title: "31. Define structure data type called time_struct and display time in the format 16:40:51",
+    code: `#include <stdio.h>
+
+struct time_struct {
+    int hour;
+    int minute;
+    int second;
+};
+
+int main() {
+    struct time_struct t;
+
+    t.hour = 16;
+    t.minute = 40;
+    t.second = 51;
+
+    printf("Time = %02d:%02d:%02d", t.hour, t.minute, t.second);
+
+    return 0;
+}`,
+    output: `Time = 16:40:51`
+},
+
+{
+    id: "FOP_P32",
+    title: "32. Design a structure student record to contain name, branch and total marks obtained. Read data for 10 students and print them.",
+    code: `#include <stdio.h>
+
+struct student {
+    char name[50];
+    char branch[20];
+    float totalMarks;
+};
+
+int main() {
+    struct student s[10];
+    int i;
+
+    printf("Enter data for 10 students:\\n");
+    for (i = 0; i < 10; i++) {
+        printf("\\nStudent %d:\\n", i + 1);
+        printf("Name: ");
+        gets(s[i].name);
+        printf("Branch: ");
+        gets(s[i].branch);
+        printf("Total Marks: ");
+        scanf("%f", &s[i].totalMarks);
+        getchar();
+    }
+
+    printf("\\nStudent Records:\\n");
+    for (i = 0; i < 10; i++) {
+        printf("\\nStudent %d:\\n", i + 1);
+        printf("Name: %s\\n", s[i].name);
+        printf("Branch: %s\\n", s[i].branch);
+        printf("Total Marks: %.2f\\n", s[i].totalMarks);
+    }
+
+    return 0;
+}`,
+    output: `Enter data for 10 students:
+Student 1:
+Name: Ankit
+Branch: BCA
+Total Marks: 450
+...
+
+Student Records:
+
+Student 1:
+Name: Ankit
+Branch: BCA
+Total Marks: 450.00
+...`
+},
+
+{
+    id: "FOP_P33",
+    title: "33. Write a program to print address of variable using pointer.",
+    code: `#include <stdio.h>
+
+int main() {
+    int x;
+    int *p;
+
+    x = 10;
+    p = &x;
+
+    printf("Value of x = %d\\n", x);
+    printf("Address of x = %p\\n", p);
+
+    return 0;
+}`,
+    output: `Value of x = 10
+Address of x = 0x61ff0c   (address will vary)`
+},
+
+{
+    id: "FOP_P34",
+    title: "34. Write a C program to swap the two values using pointers.",
+    code: `#include <stdio.h>
+
+void swap(int *a, int *b) {
+    int temp;
+    temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+int main() {
+    int x, y;
+
+    printf("Enter two numbers: ");
+    scanf("%d %d", &x, &y);
+
+    printf("Before swap: x = %d, y = %d\\n", x, y);
+    swap(&x, &y);
+    printf("After swap:  x = %d, y = %d", x, y);
+
+    return 0;
+}`,
+    output: `Enter two numbers: 5 8
+Before swap: x = 5, y = 8
+After swap:  x = 8, y = 5`
+},
+
+{
+    id: "FOP_P35",
+    title: "35. Write a program to access array elements using pointer.",
+    code: `#include <stdio.h>
+
+int main() {
+    int a[5];
+    int *p;
+    int i;
+
+    printf("Enter 5 elements: ");
+    for (i = 0; i < 5; i++) {
+        scanf("%d", &a[i]);
+    }
+
+    p = a; // base address of array
+
+    printf("Array elements using pointer:\\n");
+    for (i = 0; i < 5; i++) {
+        printf("%d ", *(p + i));
+    }
+
+    return 0;
+}`,
+    output: `Enter 5 elements: 2 4 6 8 10
+Array elements using pointer:
+2 4 6 8 10`
+},
+
+{
+    id: "FOP_P36",
+    title: "36. Write a program to read, print and addition of two Matrices using pointer and user define functions.",
+    code: `#include <stdio.h>
+
+void readMatrix(int *m, int rows, int cols) {
+    int i, j;
+    for (i = 0; i < rows; i++) {
+        for (j = 0; j < cols; j++) {
+            scanf("%d", (m + i * cols + j));
+        }
+    }
+}
+
+void printMatrix(int *m, int rows, int cols) {
+    int i, j;
+    for (i = 0; i < rows; i++) {
+        for (j = 0; j < cols; j++) {
+            printf("%d ", *(m + i * cols + j));
+        }
+        printf("\\n");
+    }
+}
+
+void addMatrix(int *a, int *b, int *c, int rows, int cols) {
+    int i, j;
+    for (i = 0; i < rows; i++) {
+        for (j = 0; j < cols; j++) {
+            *(c + i * cols + j) = *(a + i * cols + j) + *(b + i * cols + j);
+        }
+    }
+}
+
+int main() {
+    int a[3][3], b[3][3], c[3][3];
+
+    printf("Enter elements of first 3x3 matrix:\\n");
+    readMatrix((int *)a, 3, 3);
+
+    printf("Enter elements of second 3x3 matrix:\\n");
+    readMatrix((int *)b, 3, 3);
+
+    addMatrix((int *)a, (int *)b, (int *)c, 3, 3);
+
+    printf("\\nFirst matrix:\\n");
+    printMatrix((int *)a, 3, 3);
+
+    printf("\\nSecond matrix:\\n");
+    printMatrix((int *)b, 3, 3);
+
+    printf("\\nAddition matrix:\\n");
+    printMatrix((int *)c, 3, 3);
+
+    return 0;
+}`,
+    output: `Enter elements of first 3x3 matrix:
+1 2 3
+4 5 6
+7 8 9
+Enter elements of second 3x3 matrix:
+9 8 7
+6 5 4
+3 2 1
+
+First matrix:
+1 2 3
+4 5 6
+7 8 9
+
+Second matrix:
+9 8 7
+6 5 4
+3 2 1
+
+Addition matrix:
+10 10 10
+10 10 10
+10 10 10`
+},
+
+{
+    id: "FOP_P37",
+    title: "37. Write a program for sorting using pointer.",
+    code: `#include <stdio.h>
+
+int main() {
+    int a[10];
+    int *p = a;
+    int i, j, temp;
+
+    printf("Enter 10 elements: ");
+    for (i = 0; i < 10; i++) {
+        scanf("%d", p + i);
+    }
+
+    for (i = 0; i < 9; i++) {
+        for (j = i + 1; j < 10; j++) {
+            if (*(p + i) > *(p + j)) {
+                temp = *(p + i);
+                *(p + i) = *(p + j);
+                *(p + j) = temp;
+            }
+        }
+    }
+
+    printf("Sorted array: ");
+    for (i = 0; i < 10; i++) {
+        printf("%d ", *(p + i));
+    }
+
+    return 0;
+}`,
+    output: `Enter 10 elements: 5 1 9 3 7 2 8 6 4 0
+Sorted array: 0 1 2 3 4 5 6 7 8 9 `
+},
+
+{
+    id: "FOP_P38",
+    title: "38. Write a program to read n integer numbers, store in All.txt and separate even/odd into Even.txt and Odd.txt.",
+    code: `#include <stdio.h>
+
+int main() {
+    FILE *allFile, *evenFile, *oddFile;
+    int n, i, num;
+
+    allFile = fopen("All.txt", "w");
+    if (allFile == NULL) {
+        printf("Cannot open All.txt\\n");
+        return 1;
+    }
+
+    printf("How many numbers? ");
+    scanf("%d", &n);
+
+    printf("Enter %d numbers:\\n", n);
+    for (i = 0; i < n; i++) {
+        scanf("%d", &num);
+        fprintf(allFile, "%d ", num);
+    }
+    fclose(allFile);
+
+    allFile = fopen("All.txt", "r");
+    evenFile = fopen("Even.txt", "w");
+    oddFile = fopen("Odd.txt", "w");
+
+    if (allFile == NULL || evenFile == NULL || oddFile == NULL) {
+        printf("File error.\\n");
+        return 1;
+    }
+
+    while (fscanf(allFile, "%d", &num) == 1) {
+        if (num % 2 == 0)
+            fprintf(evenFile, "%d ", num);
+        else
+            fprintf(oddFile, "%d ", num);
+    }
+
+    fclose(allFile);
+    fclose(evenFile);
+    fclose(oddFile);
+
+    printf("Numbers written to All.txt, Even.txt and Odd.txt");
+
+    return 0;
+}`,
+    output: `How many numbers? 6
+Enter 6 numbers:
+1 2 3 4 5 6
+Numbers written to All.txt, Even.txt and Odd.txt`
+},
+
+{
+    id: "FOP_P39",
+    title: "39. Write a program to accept the contents from the user and store it in the file one line at a time and print the contents of the file.",
+    code: `#include <stdio.h>
+
+int main() {
+    FILE *fp;
+    char line[100];
+    int n, i;
+
+    fp = fopen("Notes.txt", "w");
+    if (fp == NULL) {
+        printf("Cannot open file.\\n");
+        return 1;
+    }
+
+    printf("How many lines you want to enter? ");
+    scanf("%d", &n);
+    getchar(); // clear newline
+
+    printf("Enter %d lines:\\n", n);
+    for (i = 0; i < n; i++) {
+        gets(line);
+        fprintf(fp, "%s\\n", line);
+    }
+    fclose(fp);
+
+    fp = fopen("Notes.txt", "r");
+    if (fp == NULL) {
+        printf("Cannot open file.\\n");
+        return 1;
+    }
+
+    printf("\\nContents of file:\\n");
+    while (fgets(line, sizeof(line), fp) != NULL) {
+        printf("%s", line);
+    }
+
+    fclose(fp);
+
+    return 0;
+}`,
+    output: `How many lines you want to enter? 2
+Enter 2 lines:
+Hello BCA
+This is file practical
+
+Contents of file:
+Hello BCA
+This is file practical`
+},
+
+{
+    id: "FOP_P40",
+    title: "40. Write a program to merge two files into the third file.",
+    code: `#include <stdio.h>
+
+int main() {
+    FILE *f1, *f2, *f3;
+    char ch;
+
+    f1 = fopen("File1.txt", "r");
+    f2 = fopen("File2.txt", "r");
+    f3 = fopen("Merge.txt", "w");
+
+    if (f1 == NULL || f2 == NULL || f3 == NULL) {
+        printf("File opening error.\\n");
+        return 1;
+    }
+
+    while ((ch = fgetc(f1)) != EOF) {
+        fputc(ch, f3);
+    }
+
+    while ((ch = fgetc(f2)) != EOF) {
+        fputc(ch, f3);
+    }
+
+    fclose(f1);
+    fclose(f2);
+    fclose(f3);
+
+    printf("Files merged successfully into Merge.txt");
+
+    return 0;
+}`,
+    output: `Files merged successfully into Merge.txt`
+},
+            ]
+        },
+
+        FWT:{
+            type:"code",
+            short:"FWT",
+            full:"Fundamental Of Web Technology",
+            practicals : [
+                {
+                    id: "FWT_P1",
+                    title: "1.Write codes to create a web page using the following tags: a) Text b) Marquee c) Character formatting tags such as B , I , U",
+                    code: 
+`<!DOCTYPE html>
+<html>
+<head>
+    <title>Text, Marquee & Formatting Tags</title>
+</head>
+<body>
+
+    <h1>Welcome to My Web Page</h1>
+    <p>This is a normal paragraph text.</p>
+
+    <marquee>This is a scrolling marquee text.</marquee>
+
+    <p>
+        <b>This is bold text</b><br>
+        <i>This is italic text</i><br>
+        <u>This is underlined text</u><br>
+        <b><i><u>This is bold, italic and underlined text</u></i></b>
+    </p>
+
+</body>
+</html>`,
+            output: `Welcome to My Web Page
+This is a normal paragraph text.
+
+This is a scrolling marquee text.
+This is bold text
+This is italic text
+This is underlined text
+This is bold, italic and underlined text`
+                },
+                {
+    id: "FWT_P2",
+    title: "2.Write codes to create a web page using font Color, font face, font size, and background color.",
+    code:
+`<!DOCTYPE html>
+<html>
+<head>
+    <title>Font & Background Example</title>
+</head>
+<body bgcolor="lightblue">
+
+    <h1 align="center">Font & Background Demo</h1>
+
+    <p>
+        <font color="red" size="5" face="Arial">
+            This is red text with Arial font and size 5.
+        </font>
+    </p>
+
+    <p>
+        <font color="green" size="4" face="Times New Roman">
+            This is green text with Times New Roman font and size 4.
+        </font>
+    </p>
+
+    <p>
+        <font color="blue" size="3" face="Courier New">
+            This is blue text with Courier New font and size 3.
+        </font>
+    </p>
+
+</body>
+</html>`,
+    output: `A web page with light blue background.
+Heading in center: "Font & Background Demo"
+Then 3 lines:
+- Red, large Arial text
+- Green, medium Times New Roman text
+- Blue, smaller Courier New text`
+},
+{
+    id: "FWT_P3",
+    title: "3.Write codes to create a web page using Paragraph tags such as P tag and BR tag.",
+    code:
+`<!DOCTYPE html>
+<html>
+<head>
+    <title>Paragraph & BR Tag Example</title>
+</head>
+<body>
+
+    <h1>Paragraph & Line Break Demo</h1>
+
+    <p>
+        This is the first paragraph. It contains some text to show how
+        paragraph tag works in HTML.
+    </p>
+
+    <p>
+        This is the second paragraph.<br>
+        This line is in the same paragraph but after a line break.<br>
+        Here is another line after BR tag.
+    </p>
+
+</body>
+</html>`,
+    output: `Heading: Paragraph & Line Break Demo
+First paragraph text.
+Second paragraph with multiple lines using BR tags.`
+},
+{
+    id: "FWT_P4",
+    title: "4.Write codes to create a web page using Nesting of lists.",
+    code:
+`<!DOCTYPE html>
+<html>
+<head>
+    <title>Nesting of Lists</title>
+</head>
+<body>
+
+    <h1>Nesting of Lists Example</h1>
+
+    <h3>My Daily Routine</h3>
+    <ul>
+        <li>Morning
+            <ol>
+                <li>Wake up</li>
+                <li>Brush teeth</li>
+                <li>Exercise</li>
+            </ol>
+        </li>
+        <li>Afternoon
+            <ul>
+                <li>Attend classes</li>
+                <li>Have lunch</li>
+            </ul>
+        </li>
+        <li>Evening
+            <ol>
+                <li>Study</li>
+                <li>Dinner</li>
+            </ol>
+        </li>
+    </ul>
+
+</body>
+</html>`,
+    output: `Nesting of Lists Example
+My Daily Routine
+Morning
+Wake up
+Brush teeth
+Exercise
+Afternoon
+Attend classes
+Have lunch
+Evening
+Study
+Dinner`
+},
+{
+    id: "FWT_P5",
+    title: "5.Write codes to create a web page using Table tags with 3 rows and columns, border, border size, border-color and insert an image in a cell.",
+    code:
+`<!DOCTYPE html>
+<html>
+<head>
+    <title>Table Example</title>
+</head>
+<body>
+
+    <h1>Table with Image</h1>
+
+    <table border="2" cellpadding="8" cellspacing="0" style="border-color:blue; border-collapse:collapse;">
+        <tr>
+            <th>Row 1 Col 1</th>
+            <th>Row 1 Col 2</th>
+            <th>Row 1 Col 3</th>
+        </tr>
+        <tr>
+            <td>Row 2 Col 1</td>
+            <td>
+                <img src="image.jpg" alt="Sample Image" width="80" height="80">
+            </td>
+            <td>Row 2 Col 3</td>
+        </tr>
+        <tr>
+            <td>Row 3 Col 1</td>
+            <td>Row 3 Col 2</td>
+            <td>Row 3 Col 3</td>
+        </tr>
+    </table>
+
+</body>
+</html>`,
+    output: `A table with 3 rows and 3 columns, blue border.
+In the second row, middle cell shows an image (image.jpg).`
+},
+
+{
+    id: "FWT_P6",
+    title: "6.Write codes to create a web page using the Form tag. Example: Admission Form.",
+    code:
+`<!DOCTYPE html>
+<html>
+<head>
+    <title>Admission Form</title>
+</head>
+<body>
+
+    <h1>Admission Form</h1>
+
+    <form>
+        <label>Full Name:</label>
+        <input type="text" name="name"><br><br>
+
+        <label>Father's Name:</label>
+        <input type="text" name="fname"><br><br>
+
+        <label>Date of Birth:</label>
+        <input type="date" name="dob"><br><br>
+
+        <label>Gender:</label>
+        <input type="radio" name="gender" value="Male">Male
+        <input type="radio" name="gender" value="Female">Female<br><br>
+
+        <label>Course:</label>
+        <select name="course">
+            <option>BCA</option>
+            <option>BSc IT</option>
+            <option>BBA</option>
+        </select><br><br>
+
+        <label>Address:</label><br>
+        <textarea name="address" rows="4" cols="30"></textarea><br><br>
+
+        <input type="submit" value="Submit">
+        <input type="reset" value="Reset">
+    </form>
+
+</body>
+</html>`,
+    output: `A web page with heading "Admission Form" and a form having:
+Name, Father's Name, DOB, Gender, Course, Address, Submit and Reset buttons.`
+},
+{
+    id: "FWT_P7",
+    title: "Other Programs Come In Soon........",
+    Code: `Soon`,
+},
+
+]
+        }
+        
+
+        // aur subjects yaha add kar sakte ho (FWT, Maths, etc.)
+    }
+
+    
+
+
+
+    const subjectListEl   = document.getElementById("subject-list");
+    const practicalListEl = document.getElementById("practical-list");
+    const pracTitleEl     = document.getElementById("prac-title");
+    const codeBoxEl       = document.getElementById("code-box");
+    const outputBoxEl     = document.getElementById("output-box");
+    const copyBtn         = document.getElementById("copy-btn");
+
+    const pdfAreaEl       = document.getElementById("pdf-area");
+    const viewPdfEl       = document.getElementById("view-pdf");
+    const downloadPdfEl   = document.getElementById("download-pdf");
+
+    let currentSubjectKey = null;
+    let currentPractical  = null;
+
+    // ---------- SUBJECT BUTTONS BANANA ----------
+    Object.keys(practicalData).forEach(key => {
+        const subject = practicalData[key];
+
+        const btn = document.createElement("button");
+        btn.className = "subject-btn";
+        btn.dataset.key = key;
+        btn.innerHTML = `<span>${subject.short}</span><span class="subject-full">${subject.full}</span>`;
+
+        btn.addEventListener("click", () => selectSubject(key));
+        subjectListEl.appendChild(btn);
+    });
+
+    function selectSubject(key) {
+        currentSubjectKey = key;
+        currentPractical = null;
+
+        // active class
+        document.querySelectorAll(".subject-btn").forEach(b => {
+            b.classList.toggle("active", b.dataset.key === key);
+        });
+
+        // practical list fill
+        const data = practicalData[key];
+        practicalListEl.innerHTML = "";
+
+        if (!data || !data.practicals.length) {
+            const li = document.createElement("li");
+            li.className = "placeholder-text";
+            li.textContent = "No practicals added yet for this subject.";
+            practicalListEl.appendChild(li);
+            return;
+        }
+
+        data.practicals.forEach(prac => {
+            const li = document.createElement("li");
+            const btn = document.createElement("button");
+            btn.className = "prac-btn";
+            btn.textContent = prac.title;
+            btn.dataset.id = prac.id;
+
+            btn.addEventListener("click", () => selectPractical(prac));
+
+            li.appendChild(btn);
+            practicalListEl.appendChild(li);
+        });
+
+        // right side reset
+        pracTitleEl.textContent = `Select a practical from "${data.full}"`;
+        codeBoxEl.innerText = "// Code will appear here...";
+        outputBoxEl.innerText = "Output will appear here...";
+        pdfAreaEl.style.display = "none";
+    }
+
+    function selectPractical(prac) {
+        currentPractical = prac;
+
+        // active class for practicals
+        document.querySelectorAll(".prac-btn").forEach(b => {
+            b.classList.toggle("active", b.dataset.id === prac.id);
+        });
+
+        const subject = practicalData[currentSubjectKey];
+
+        if (subject && subject.type === "pdf" && prac.pdf) {
+            // FCO MODE: PDF ke buttons dikhana
+            pracTitleEl.textContent = prac.title;
+            codeBoxEl.innerText = "// This practical is available as PDF.\n// Use the buttons below to view or download.";
+            outputBoxEl.innerText = "";
+            pdfAreaEl.style.display = "flex";
+            viewPdfEl.href = prac.pdf;
+            downloadPdfEl.href = prac.pdf;
+        } else {
+            // NORMAL CODE MODE (FOP etc.)
+            pracTitleEl.textContent = prac.title;
+            codeBoxEl.innerText = prac.code || "// No code added.";
+            outputBoxEl.innerText = prac.output || "";
+            pdfAreaEl.style.display = "none";
+        }
+    }
+
+    // ---------- COPY BUTTON ----------
+    copyBtn.addEventListener("click", () => {
+        if (!currentPractical) {
+            alert("Pehle koi practical select karo 🙂");
+            return;
+        }
+
+        const subject = practicalData[currentSubjectKey];
+
+        // Agar FCO hai to copy ki jagah PDF use karo
+        if (subject && subject.type === "pdf") {
+            alert("FCO practicals PDF form me hai. Neeche wale View / Download button se open karo 🙂");
+            return;
+        }
+
+        const textToCopy = currentPractical.code;
+
+        if (!textToCopy) {
+            alert("Is practical ke liye code added nahi hai.");
+            return;
+        }
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(textToCopy)
+                .then(() => alert("Code copied to clipboard ✅"))
+                .catch(() => alert("Copy nahi ho paaya, manually select karke Ctrl+C kar lo 🙂"));
+        } else {
+            alert("Browser direct copy support nahi karta, manually select karke Ctrl+C karlo 🙂");
+        }
+    });
+
+    // chahe to default subject select kar sakta hai:
+    // selectSubject("FCO");
+</script>
+</body>
+</html>
